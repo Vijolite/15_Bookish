@@ -38,6 +38,16 @@ namespace Bookish.Repositories
                   CopyId = 6,
                   Isbn="9781405233378"
                 },
+                new CopyDbModel
+                {
+                  CopyId = 7,
+                  Isbn="9780440237686"
+                },
+                new CopyDbModel
+                {
+                  CopyId = 8,
+                  Isbn="9780440237686"
+                },
 
             };
         }

@@ -53,6 +53,24 @@ namespace Bookish.Repositories
                     ReturnDate = null,
                     HasReturned=false,
                 },
+                new LoanDbModel
+                {
+                    LoanId = 6,
+                    CopyId=7,
+                    MemberId=2,
+                    IssueDate = new DateOnly(2021,12,15),
+                    ReturnDate = null,
+                    HasReturned=false,
+                },
+                new LoanDbModel
+                {
+                    LoanId = 7,
+                    CopyId=8,
+                    MemberId=1,
+                    IssueDate = new DateOnly(2021,12,15),
+                    ReturnDate = new DateOnly(2022,01,05),
+                    HasReturned=true,
+                },
 
             };
         }

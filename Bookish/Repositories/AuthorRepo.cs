@@ -27,6 +27,11 @@ namespace Bookish.Repositories
                 {
                     Id = 4,
                     Name="Michael Morpurgo",
+                },
+                new AuthorDbModel
+                {
+                    Id = 5,
+                    Name = "Lois Lowry",
                 }
             };
         }

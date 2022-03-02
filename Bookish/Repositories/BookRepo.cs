@@ -40,6 +40,14 @@ namespace Bookish.Repositories
                     Blurb = "People we meet and choices we make",
                     AuthorId = 4,
                 },
+                new BookDbModel
+                {
+                    Isbn="9780440237686",
+                    Title = "The Giver",
+                    AuthorId = 5,
+                    CoverPhotoUrl = "https://images-na.ssl-images-amazon.com/images/I/5106zg-84tL._SX324_BO1,204,203,200_.jpg",
+                    Blurb = "Utopian novel. Set in a futuristic society",
+                }
             };
         }
     }
