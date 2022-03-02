@@ -1,0 +1,44 @@
+﻿@model List<Member>
+@{
+    ViewData["Title"] = "Members";
+}
+
+
+<div class="text-center">
+    <!--<h1 class="display-4">Members</h1>-->
+    <ul>
+        @foreach (Member m in Model)
+        {
+            <li>
+                <h2>@m.FirstName @m.LastName</h2>
+
+                <p>Adress: @m.Address Phone number: @m.MobilePhone</p>
+
+                <h3>Old time loans:</h3>
+                <ol>
+                    @foreach (Loan l in m.LoanListHistory)
+                    {
+                            var x = l.HasReturned?l.ReturnDate.ToString():"not returned yet";
+                        <li>
+                            <p>@l.Copy.Book.Title</p>
+                            <img width="50" src="@l.Copy.Book.CoverPhotoUrl" alt="@l.Copy.Book.Title" />
+                            <p>@l.IssueDate - @x</p>
+                        </li>
+                    }
+                </ol>
+                <h3>Actual loans:</h3>
+                <ol>
+                    @foreach (Loan l in m.LoanListActual)
+                    {
+                        var x = l.HasReturned?l.ReturnDate.ToString():"not returned yet";
+                        <li>
+                            <p>@l.Copy.Book.Title</p>
+                            <img width="50" src="@l.Copy.Book.CoverPhotoUrl" alt="@l.Copy.Book.Title" />
+                            <p>@l.IssueDate - @x</p>
+                        </li>
+                    }
+                </ol>
+            </li>
+        }
+    </ul>
+</div>

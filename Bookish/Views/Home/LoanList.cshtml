@@ -1,0 +1,21 @@
+﻿@model List<Loan>
+@{
+    ViewData["Title"] = "Loans";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Loans</h1>
+    <ul>
+        @foreach (Loan loan in Model)
+        {
+            <li>
+                <h2>@loan.Member.FirstName @loan.Member.LastName</h2>
+
+                
+                <p>@loan.Copy.Book.Title</p>
+                <img width="100" src="@loan.Copy.Book.CoverPhotoUrl" alt="@loan.Copy.Book.Title" />
+
+            </li>
+        }
+    </ul>
+</div>

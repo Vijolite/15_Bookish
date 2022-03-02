@@ -1,0 +1,30 @@
+using Bookish.Models.Database;
+
+namespace Bookish.Repositories
+{
+    public class MemberRepo
+    {
+        public List<MemberDbModel> GetAllMembers()
+        {
+            return new List<MemberDbModel>
+            {
+                new MemberDbModel
+                {
+                  Id = 1,
+                  FirstName = "Anna",
+                  LastName = "Smith",
+                  MobilePhone = "000777555",
+                  Address = "NE35TH London street 5",
+                },
+                new MemberDbModel
+                {
+                  Id = 2,
+                  FirstName = "Jacob",
+                  LastName = "Peterson",
+                  MobilePhone = "111222333",
+                  Address = "NB34RT Lilly's alley 45",
+                },
+            };
+        }
+    }
+}
