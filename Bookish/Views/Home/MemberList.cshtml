@@ -20,13 +20,14 @@
                     {
                             var x = l.HasReturned?l.ReturnDate.ToString():"not returned yet";
                         <li>
-                            <p>@l.Copy.Book.Title</p>
-                            <img width="50" src="@l.Copy.Book.CoverPhotoUrl" alt="@l.Copy.Book.Title" />
+                            
+                            @* <p>@l.Copy.Book.Title</p>
+                            <img width="50" src="@l.Copy.Book.CoverPhotoUrl" alt="@l.Copy.Book.Title" /> *@
                             <p>@l.IssueDate - @x</p>
                         </li>
                     }
                 </ol>
-                <h3>Actual loans:</h3>
+                @* <h3>Actual loans:</h3>
                 <ol>
                     @foreach (Loan l in m.LoanListActual)
                     {
@@ -37,7 +38,7 @@
                             <p>@l.IssueDate - @x</p>
                         </li>
                     }
-                </ol>
+                </ol> *@
             </li>
         }
     </ul>

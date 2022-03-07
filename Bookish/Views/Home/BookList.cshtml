@@ -1,4 +1,32 @@
-﻿@model List<Book>
+﻿model List<Book>
+@{
+    ViewData["Title"] = "Books";
+}
+
+<h1 class="display-4">Books</h1>
+<ul class="container">
+    @foreach (Book book in Model)
+    {
+        <li class="card" style="width: 30vw">
+            <img
+                width="200"
+                src="@book.CoverPhotoUrl"
+                alt="@book.Title"
+                class="card-img-top"
+            />
+            <div class="card-body">
+                <h2 class="card-title">@book.Title</h2>
+                <p class="card-subtitle text-muted">By @book.Authors[0].Name</p>
+                <p class="card-text">@book.Blurb</p>
+                <p class="card-text">@book.Isbn</p>
+            </div>
+        </li>
+    }
+</ul>
+
+
+@* 
+@model List<Book>
 @{
     ViewData["Title"] = "Books";
 }
@@ -18,3 +46,5 @@
         }
     </ul>
 </div>
+
+ *@

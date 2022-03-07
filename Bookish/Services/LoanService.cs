@@ -19,50 +19,50 @@ namespace Bookish.Services
 
             List<Loan> result = new List<Loan>();
 
-            foreach(var dbLoan in dbLoans)
-            {
-                var dbMember = dbMembers.Find(a => a.Id == dbLoan.MemberId);
+            // foreach(var dbLoan in dbLoans)
+            // {
+            //     var dbMember = dbMembers.Find(a => a.Id == dbLoan.MemberId);
 
-                if (dbMember == null)
-                {
-                    throw new NullReferenceException("Could not find member");
-                }
+            //     if (dbMember == null)
+            //     {
+            //         throw new NullReferenceException("Could not find member");
+            //     }
 
-                var dbCopy = dbCopies.Find(a => a.CopyId == dbLoan.CopyId);
+            //     var dbCopy = dbCopies.Find(a => a.CopyId == dbLoan.CopyId);
 
-                if (dbCopy == null)
-                {
-                    throw new NullReferenceException("Could not find copy");
-                }
+            //     if (dbCopy == null)
+            //     {
+            //         throw new NullReferenceException("Could not find copy");
+            //     }
 
-                var dbBook = dbBooks.Find(a => a.Isbn == dbCopy.Isbn);
-                if (dbBook == null)
-                {
-                    throw new NullReferenceException("Could not find book");
-                }
+            //     var dbBook = dbBooks.Find(a => a.Isbn == dbCopy.Isbn);
+            //     if (dbBook == null)
+            //     {
+            //         throw new NullReferenceException("Could not find book");
+            //     }
 
-                result.Add(new Loan
-                {
+            //     result.Add(new Loan
+            //     {
 
-                    Member = new Member
-                    {
-                        FirstName = dbMember.FirstName,
-                        LastName = dbMember.LastName
-                    },
-                    Copy = new Copy
-                    {
-                        Book = new Book 
-                        {
-                            Isbn = dbBook.Isbn, 
-                            Title = dbBook.Title,
-                            CoverPhotoUrl = dbBook.CoverPhotoUrl
-                        },
-                    },
-                    IssueDate = dbLoan.IssueDate,
-                    ReturnDate = dbLoan.ReturnDate,
-                    HasReturned = dbLoan.HasReturned,
-                });
-            }
+            //         Member = new Member
+            //         {
+            //             FirstName = dbMember.FirstName,
+            //             LastName = dbMember.LastName
+            //         },
+            //         Copy = new Copy
+            //         {
+            //             Book = new Book 
+            //             {
+            //                 Isbn = dbBook.Isbn, 
+            //                 Title = dbBook.Title,
+            //                 CoverPhotoUrl = dbBook.CoverPhotoUrl
+            //             },
+            //         },
+            //         IssueDate = dbLoan.IssueDate,
+            //         ReturnDate = dbLoan.ReturnDate,
+            //         HasReturned = dbLoan.HasReturned,
+            //     });
+            // }
             
             return result;
         }
