@@ -41,8 +41,13 @@ public class HomeController : Controller
         return View(books);
     }
 
+    public IActionResult CreateBookForm()
+    {
+        return View();
+    }
+
     [HttpPost]
-    public IActionResult CreateBook([FromBody] CreateBookRequest createBookRequest)
+    public IActionResult CreateBook([FromForm] CreateBookRequest createBookRequest)
     {
         var newBook = _bookService.CreateBook(createBookRequest);
 
