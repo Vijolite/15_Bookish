@@ -27,3 +27,10 @@
 
     <input type="submit">
 </form>
+<h1>All authors:</h1>
+<ul>
+    @foreach (Author author in ViewBag.Authors)
+    {
+        <li>@author.Name</li>
+    }
+</ul>
