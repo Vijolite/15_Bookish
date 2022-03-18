@@ -3,16 +3,45 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bookish.Repositories
 {
-    public class LoanRepo
+    public interface ILoanRepo
+        {
+            public List<LoanDbModel> GetAllLoans();
+        }
+    public class LoanRepo : ILoanRepo
     {
+
         private BookishContext context = new BookishContext();
 
         public List<LoanDbModel> GetAllLoans()
         {
             return context
                 .Loans
+                // .Include(b => b.Member)
+                // .Include(c => c.Copy)
                 .ToList();
         }
+
+        public List<LoanDbModel> GetOldLoans(int id)
+        {
+            return context
+            .Loans
+            .Where(loan => loan.HasReturned == true && loan.Member.Id==id)
+            .Include (c => c.Copy)
+            .ToList();
+        }
+
+        
+        public List<LoanDbModel> GetActualsLoans(int id)
+        {
+            return context
+            .Loans
+            .Where(loan => loan.HasReturned == false && loan.Member.Id==id)
+            .ToList();
+        }
+
+
+        
+
     }
 }
 // using Bookish.Models.Database;

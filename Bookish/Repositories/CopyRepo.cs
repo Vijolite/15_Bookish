@@ -3,7 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bookish.Repositories
 {
-    public class CopyRepo
+    public interface ICopyRepo
+    {
+        public List<CopyDbModel> GetAllCopies();
+    }
+    public class CopyRepo : ICopyRepo
     {
         private BookishContext context = new BookishContext();
 
@@ -14,6 +18,14 @@ namespace Bookish.Repositories
                 .Include(b => b.Loans)
                 .ToList();
         }
+
+        public CopyDbModel GetCopyById(int id)
+        {
+            return context
+            .Copies
+            .Single(l => l.CopyId == id);
+        }
+
     }
 }
 

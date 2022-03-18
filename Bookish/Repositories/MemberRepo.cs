@@ -3,7 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bookish.Repositories
 {
-    public class MemberRepo
+    public interface IMemberRepo
+    {
+        public List<MemberDbModel> GetAllMembers();
+    }
+    public class MemberRepo : IMemberRepo
     {
         private BookishContext context = new BookishContext();
 
@@ -12,6 +16,8 @@ namespace Bookish.Repositories
             return context
                 .Members
                 .Include(b => b.Loans)
+                .ThenInclude (l=>l.Copy)
+                .ThenInclude (b=>b.Book)
                 .ToList();
         }
     }

@@ -6,95 +6,74 @@ namespace Bookish.Services
     public class MemberService
     {
         private MemberRepo _members = new MemberRepo();
-        // private LoanRepo _loans = new LoanRepo();
-        // private BookRepo _books = new BookRepo();
-        // private CopyRepo _copies = new CopyRepo();
+        private LoanRepo _loans = new LoanRepo();
+        
+        private BookRepo _books = new BookRepo();
+        private CopyRepo _copies = new CopyRepo();
 
         public List<Member> GetAllMembers()
         {
             var dbMembers = _members.GetAllMembers();
             // var dbLoans = _loans.GetAllLoans();
-            // var dbBooks = _books.GetAllBooks();
-            // var dbCopies = _copies.GetAllCopies();
+            var dbBooks = _books.GetAllBooks();
+            var dbCopies = _copies.GetAllCopies();
 
             List<Member> result = new List<Member>();
 
             foreach(var dbMember in dbMembers)
             {
+                var dbLoansOld = _loans.GetOldLoans(dbMember.Id);
+                var dbLoansActual = _loans.GetActualsLoans(dbMember.Id);
+                
+                List<Loan> loanListHistory = new List<Loan>();
+                foreach (var dbLoan in dbLoansOld) {
+                    
+                    //Console.WriteLine (dbLoan.Copy?.Book.Title);
+                    // int copyId = dbLoan.Copy?.CopyId;
+                    // var dbcopy = _copies.GetCopyById (dbLoan.Copy.CopyId);
+                    // Console.WriteLine (dbcopy.Book.Title);
 
-                // List<Loan> loanListHistory = new List<Loan>();
-                // List<Loan> loanListActual = new List<Loan>();
+                    loanListHistory.Add(new Loan
+                                {
+                                    IssueDate=dbLoan.IssueDate,
+                                    ReturnDate=dbLoan.ReturnDate,
+                                    HasReturned=dbLoan.HasReturned,
 
-                // foreach (var dbLoan in dbLoans)
-                // {
-                //     var dbCopy = dbCopies.Find(a => a.CopyId == dbLoan.CopyId);
+                                });
+                    // var dbCopy = dbCopies.Find(a => a.CopyId == dbLoan.Copy?.CopyId);
+                    // if (dbCopy != null)
+                    // {
+                    //     var dbBook = dbBooks.Find(a => a.Isbn == dbCopy.Book?.Isbn);
+                    //     if (dbBook != null)
+                    //     {
+                    //         loanListHistory.Add(new Loan
+                    //             {
+                    //                 IssueDate=dbLoan.IssueDate,
+                    //                 ReturnDate=dbLoan.ReturnDate,
+                    //                 HasReturned=dbLoan.HasReturned,
+                    //                 Member = new Member 
+                    //                 {
+                    //                     Id = dbMember.Id,
+                    //                     FirstName = dbMember.FirstName,
+                    //                     LastName = dbMember.LastName,
+                    //                     Address = dbMember.Address,
+                    //                     MobilePhone = dbMember.MobilePhone,
+                    //                 },
+                    //                 Copy = new Copy
+                    //                 {
+                    //                     Book = new Book 
+                    //                     {
+                    //                         Isbn = dbBook.Isbn, 
+                    //                         Title = dbBook.Title,
+                    //                         CoverPhotoUrl = dbBook.CoverPhotoUrl
+                    //                     },
+                    //                 },
+                    //             });
+                    //     }
+                    // }
 
-                //     if (dbCopy == null)
-                //     {
-                //         throw new NullReferenceException("Could not find copy");
-                //     }
+                }
 
-                //     var dbBook = dbBooks.Find(a => a.Isbn == dbCopy.Isbn);
-                //     if (dbBook == null)
-                //     {
-                //         throw new NullReferenceException("Could not find book");
-                //     }
-                //     if (dbLoan.MemberId == dbMember.Id)
-                //         {
-                //             if (dbLoan.HasReturned)
-                //             {
-                //                 loanListHistory.Add(new Loan
-                //                 {
-                //                     IssueDate=dbLoan.IssueDate,
-                //                     ReturnDate=dbLoan.ReturnDate,
-                //                     HasReturned=dbLoan.HasReturned,
-                //                     Member = new Member 
-                //                     {
-                //                         Id = dbMember.Id,
-                //                         FirstName = dbMember.FirstName,
-                //                         LastName = dbMember.LastName,
-                //                         Address = dbMember.Address,
-                //                         MobilePhone = dbMember.MobilePhone,
-                //                     },
-                //                     Copy = new Copy
-                //                     {
-                //                         Book = new Book 
-                //                         {
-                //                             Isbn = dbBook.Isbn, 
-                //                             Title = dbBook.Title,
-                //                             CoverPhotoUrl = dbBook.CoverPhotoUrl
-                //                         },
-                //                     },
-                //                 });
-                //             }
-                //             else
-                //             {
-                //                 loanListActual.Add(new Loan
-                //                 {
-                //                     IssueDate=dbLoan.IssueDate,
-                //                     ReturnDate=dbLoan.ReturnDate,
-                //                     HasReturned=dbLoan.HasReturned,
-                //                     Member = new Member 
-                //                     {
-                //                         Id = dbMember.Id,
-                //                         FirstName = dbMember.FirstName,
-                //                         LastName = dbMember.LastName,
-                //                         Address = dbMember.Address,
-                //                         MobilePhone = dbMember.MobilePhone,
-                //                     },
-                //                     Copy = new Copy
-                //                     {
-                //                         Book = new Book 
-                //                         {
-                //                             Isbn = dbBook.Isbn, 
-                //                             Title = dbBook.Title,
-                //                             CoverPhotoUrl = dbBook.CoverPhotoUrl
-                //                         },
-                //                     },
-                //                 });
-                //             }
-                //         }
-                // }
 
                 result.Add(new Member
                 {
@@ -104,19 +83,42 @@ namespace Bookish.Services
                     Address = dbMember.Address,
                     MobilePhone = dbMember.MobilePhone,
                     
-                    LoanListHistory = dbMember
+                    LoanListHistory = //loanListHistory,
+                    dbMember
                         .Loans
+                        .Where(loan => loan.HasReturned == true)
                         .Select( q => new Loan
                             {
                                 IssueDate=q.IssueDate,
                                 ReturnDate=q.ReturnDate,
                                 HasReturned=q.HasReturned, 
-                                //Member= new Member{FirstName = q.Member.FirstName,}, 
-                                //Copy = new Copy {Book = new Book {Title=q.Copy.Book.Title,Isbn=q.Copy.Book.Isbn,}}
-                                //member
-                                //copy
+                                Copy = new Copy {Book = new Book {
+                                    Title=q.Copy?.Book?.Title,
+                                    CoverPhotoUrl=q.Copy?.Book?.CoverPhotoUrl,
+                                    // Authors = q.Copy.Book.Authors
+                                    //     .Select(a => new Author
+                                    //         {
+                                    //             Name = a.Name,
+                                    //             AuthorPhotoUrl = a.AuthorPhotoUrl
+                                    //         })
+                                    //     .ToList(),
+                                    },},
                             })
-                        .ToList(),
+                    .ToList(),
+                    LoanListActual = dbMember
+                        .Loans
+                        .Where(loan => loan.HasReturned == false)
+                        .Select( q => new Loan
+                            {
+                                IssueDate=q.IssueDate,
+                                ReturnDate=q.ReturnDate,
+                                HasReturned=q.HasReturned, 
+                                Copy = new Copy {Book = new Book {
+                                    Title=q.Copy?.Book?.Title,
+                                    CoverPhotoUrl=q.Copy?.Book?.CoverPhotoUrl,
+                                },},
+                            })
+                    .ToList(),
                 });
                 
                 // result.Add(new Member
