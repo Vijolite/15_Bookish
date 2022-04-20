@@ -22,6 +22,8 @@ namespace Bookish.Models
             ReturnDate = loanDbModel.ReturnDate;
             HasReturned = loanDbModel.HasReturned;
             Member = new Member {FirstName = loanDbModel.Member.FirstName, LastName=loanDbModel.Member.LastName};
+            Copy = new Copy 
+                {Book = new Book {Title = loanDbModel.Copy.Book.Title, CoverPhotoUrl=loanDbModel.Copy.Book.CoverPhotoUrl}};
         }
     }
 }

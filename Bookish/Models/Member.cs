@@ -19,6 +19,46 @@ namespace Bookish.Models
         {
             FirstName = memberDbModel.FirstName;
             LastName = memberDbModel.LastName;
+            Id = memberDbModel.Id;
+            Address = memberDbModel.Address;
+            MobilePhone = memberDbModel.MobilePhone;
+                    
+            LoanListHistory = memberDbModel
+                        .Loans
+                        .Where(loan => loan.HasReturned == true)
+                        .Select( q => new Loan
+                            {
+                                IssueDate=q.IssueDate,
+                                ReturnDate=q.ReturnDate,
+                                HasReturned=q.HasReturned, 
+                                Copy = new Copy {Book = new Book {
+                                    Title=q.Copy?.Book?.Title,
+                                    CoverPhotoUrl=q.Copy?.Book?.CoverPhotoUrl,
+                                    // Authors = q.Copy.Book.Authors
+                                    //     .Select(a => new Author
+                                    //         {
+                                    //             Name = a.Name,
+                                    //             AuthorPhotoUrl = a.AuthorPhotoUrl
+                                    //         })
+                                    //     .ToList(),
+                                    },},
+                            })
+                    .ToList();
+            LoanListActual = memberDbModel
+                        .Loans
+                        .Where(loan => loan.HasReturned == false)
+                        .Select( q => new Loan
+                            {
+                                IssueDate=q.IssueDate,
+                                ReturnDate=q.ReturnDate,
+                                HasReturned=q.HasReturned, 
+                                Copy = new Copy {Book = new Book {
+                                    Title=q.Copy?.Book?.Title,
+                                    CoverPhotoUrl=q.Copy?.Book?.CoverPhotoUrl,
+                                },},
+                            })
+                    .ToList();
+
         }
     }
 }
