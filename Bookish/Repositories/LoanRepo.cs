@@ -16,8 +16,9 @@ namespace Bookish.Repositories
         {
             return context
                 .Loans
-                // .Include(b => b.Member)
-                // .Include(c => c.Copy)
+                .Include(m => m.Member)
+                .Include(c => c.Copy)
+                .ThenInclude (b=>b.Book)
                 .ToList();
         }
 

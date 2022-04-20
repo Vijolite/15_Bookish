@@ -1,3 +1,4 @@
+using Bookish.Models.Database;
 namespace Bookish.Models
 {
     public class Member
@@ -10,5 +11,14 @@ namespace Bookish.Models
 
         public List<Loan>? LoanListHistory {get; set;}
         public List<Loan>? LoanListActual {get; set;}
+
+        public Member()
+        {
+        }
+        public Member(MemberDbModel memberDbModel)
+        {
+            FirstName = memberDbModel.FirstName;
+            LastName = memberDbModel.LastName;
+        }
     }
 }

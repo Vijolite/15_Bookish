@@ -14,6 +14,7 @@ public class HomeController : Controller
     private readonly IBookService _bookService;
     private readonly IAuthorService _authorService;
     private MemberService _memberService = new MemberService();
+    private LoanService _loanService = new LoanService();
 
     private readonly IBookRepo _books;
 
@@ -79,6 +80,12 @@ public class HomeController : Controller
     {
         var members = _memberService.GetAllMembers();
         return View(members);
+    }
+
+    public IActionResult LoanList()
+    {
+        var loans = _loanService.GetAllLoans();
+        return View(loans);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

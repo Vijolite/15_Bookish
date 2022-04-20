@@ -1,3 +1,4 @@
+using Bookish.Models.Database;
 namespace Bookish.Models
 {
     public class Loan
@@ -9,5 +10,18 @@ namespace Bookish.Models
         public DateTime? ReturnDate { get; set; }
 
         public bool HasReturned { get; set; }
+
+        public Loan()
+        {
+
+        }
+
+        public Loan(LoanDbModel loanDbModel)
+        {
+            IssueDate = loanDbModel.IssueDate;
+            ReturnDate = loanDbModel.ReturnDate;
+            HasReturned = loanDbModel.HasReturned;
+            Member = new Member {FirstName = loanDbModel.Member.FirstName, LastName=loanDbModel.Member.LastName};
+        }
     }
 }
