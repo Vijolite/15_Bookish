@@ -26,7 +26,8 @@ namespace Bookish.Repositories
     public interface IBookRepo
     {
         public List<BookDbModel> GetAllBooks();
-        public BookDbModel CreateBook(BookDbModel newBook);
+        //public BookDbModel CreateBook(BookDbModel newBook);
+        public BookDbModel CreateBook(CreateBookRequest createBookRequest);
     }
 
     public class BookRepo : IBookRepo
@@ -42,12 +43,34 @@ namespace Bookish.Repositories
                 .ToList();
         }
 
-        public BookDbModel CreateBook(BookDbModel newBook)
+        public BookDbModel CreateBook(CreateBookRequest createBookRequest)
         {
-            var insertedBookEntry = context.Books.Add(newBook);
+            //var insertedBookEntry = context.Books.Add(newBook);
+             var newBook = new BookDbModel
+            {
+                Isbn = createBookRequest.Isbn,
+                Title = createBookRequest.Title,
+                CoverPhotoUrl = createBookRequest.CoverPhotoUrl,
+                Blurb = createBookRequest.Blurb,
+            };
+
+            var insertedBook = context.Books.Add(newBook).Entity;
+
+            if (createBookRequest.AuthorIds != null)
+            {
+                insertedBook.Authors = new List<AuthorDbModel>();
+
+                foreach (int authorId in createBookRequest.AuthorIds)
+                {
+                    insertedBook.Authors.Add(
+                        context.Authors.Where(a => a.Id == authorId).Single()
+                    );
+                }
+            }
             context.SaveChanges();
 
-            return insertedBookEntry.Entity;
+            //return insertedBookEntry.Entity;
+            return insertedBook;
         }
         
         // public BookDbModel Create(CreateBookRequest newBook)

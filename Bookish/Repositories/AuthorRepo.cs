@@ -8,6 +8,7 @@ namespace Bookish.Repositories
     {
         public List<AuthorDbModel> GetAllAuthors();
         public AuthorDbModel CreateAuthor(AuthorDbModel newAuthor);
+        public AuthorDbModel GetById(int id);
     }
 
     public class AuthorRepo : IAuthorRepo
@@ -35,6 +36,14 @@ namespace Bookish.Repositories
             context.SaveChanges();
 
             return insertedAuthorEntry.Entity;
+        }
+
+        public AuthorDbModel GetById(int id)
+        {
+            return context
+                .Authors
+                .Where(a => a.Id == id)
+                .Single();
         }
     }
 }

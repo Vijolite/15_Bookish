@@ -21,16 +21,18 @@
     <label asp-for="Blurb">
         Blurb: <input asp-for="Blurb">
     </label>
-    <label asp-for="AuthorNames[0]">
-        Author: <input asp-for="AuthorNames[0]">
+    <label asp-for="AuthorIds[0]">
+        Author: <select asp-for="AuthorIds[0]" asp-items="ViewBag.Authors"></select>
+    @* <label asp-for="AuthorNames[0]">
+        Author: <input asp-for="AuthorNames[0]"> *@
     </label>
 
     <input type="submit">
 </form>
-<h1>All authors:</h1>
+@* <h1>All authors:</h1>
 <ul>
     @foreach (Author author in ViewBag.Authors)
     {
         <li>@author.Name</li>
     }
-</ul>
+</ul> *@
