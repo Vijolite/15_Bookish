@@ -1,0 +1,21 @@
+@model Bookish.Models.Request.CreateAuthorRequest
+@{
+    ViewData["Title"] = "New Author";
+}
+
+<h1>New Author</h1>
+<form
+    asp-controller="Home"
+    asp-action="CreateAuthor"
+    method="post"
+>
+    <label asp-for="Name">
+        Author's name: <input asp-for="Name">
+    </label>
+    <label asp-for="AuthorPhotoUrl">
+        Author's photo URL: <input asp-for="AuthorPhotoUrl">
+    </label>
+
+
+    <input type="submit">
+</form>
