@@ -12,6 +12,8 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IBookService _bookService;
+    private readonly ICopyService _copyService;
+
     private readonly IAuthorService _authorService;
     private MemberService _memberService = new MemberService();
     private LoanService _loanService = new LoanService();
@@ -21,11 +23,13 @@ public class HomeController : Controller
     public HomeController(
         ILogger<HomeController> logger,
         IBookService bookService,
+        ICopyService copyService,
         IAuthorService authorService
     )
     {
         _logger = logger;
         _bookService = bookService;
+        _copyService = copyService;
         _authorService = authorService;
     }
 
@@ -65,6 +69,39 @@ public class HomeController : Controller
         var newBook = _bookService.CreateBook(createBookRequest);
 
         return Created("/Home/BookList", newBook);
+    }
+
+    public IActionResult CreateCopyForm()
+    {
+        var books = _bookService.GetAllBooks();
+        ViewBag.Books = books.Select(
+            a => new SelectListItem
+            {
+                Value = a.Isbn,
+                Text = a.Title + " (" + a.Isbn + ") " 
+                
+            }
+        );
+        ViewBag.Photos = books.Select(
+            a => new SelectListItem
+            {
+                Value = a.Isbn,
+                Text = a.CoverPhotoUrl
+                
+            }
+        );
+        
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult CreateCopy([FromForm] CreateCopyRequest createCopyRequest)
+    {
+           
+        var newCopy = _copyService.CreateCopy(createCopyRequest);
+        
+
+        return Created("/Home/BookList", newCopy);
     }
 
     public IActionResult CreateAuthorForm()

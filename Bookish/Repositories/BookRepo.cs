@@ -1,21 +1,3 @@
-// using Bookish.Models.Database;
-// using Microsoft.EntityFrameworkCore;
-
-// namespace Bookish.Repositories
-// {
-//     public class BookRepo
-//     {
-//         private BookishContext context = new BookishContext();
-
-//         public List<BookDbModel> GetAllBooks()
-//         {
-//             return context
-//                 .Books
-//                 .Include(b => b.Authors)
-//                 .ToList();
-//         }
-//     }
-// }
 
 using Bookish.Models.Database;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +10,7 @@ namespace Bookish.Repositories
         public List<BookDbModel> GetAllBooks();
         //public BookDbModel CreateBook(BookDbModel newBook);
         public BookDbModel CreateBook(CreateBookRequest createBookRequest);
+        public BookDbModel GetBookByIsbn (string isbn);
     }
 
     public class BookRepo : IBookRepo
@@ -41,6 +24,13 @@ namespace Bookish.Repositories
                 .Include(b => b.Authors)
                 .Include(b => b.Copies)
                 .ToList();
+        }
+
+        public BookDbModel GetBookByIsbn (string isbn) {
+            return context
+            .Books
+            .Single(l => l.Isbn == isbn);
+
         }
 
         public BookDbModel CreateBook(CreateBookRequest createBookRequest)

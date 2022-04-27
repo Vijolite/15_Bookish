@@ -15,4 +15,10 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color:#008e8d; 
+  color: #ffcc83; 
 }
+.invisible {
+  display: none;
+}
+

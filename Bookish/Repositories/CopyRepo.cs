@@ -1,11 +1,16 @@
 using Bookish.Models.Database;
 using Microsoft.EntityFrameworkCore;
+using Bookish.Models.Request;
+
 
 namespace Bookish.Repositories
 {
     public interface ICopyRepo
     {
         public List<CopyDbModel> GetAllCopies();
+        public CopyDbModel CreateCopy(CreateCopyRequest createCopyRequest);
+        public CopyDbModel CreateCopy(CopyDbModel newCopy);
+        public BookDbModel GetBookByIsbn (string isbn);
     }
     public class CopyRepo : ICopyRepo
     {
@@ -24,6 +29,51 @@ namespace Bookish.Repositories
             return context
             .Copies
             .Single(l => l.CopyId == id);
+        }
+
+        public BookDbModel GetBookByIsbn (string isbn) {
+            return context
+            .Books
+            .Single(l => l.Isbn == isbn);
+
+        }
+
+        public CopyDbModel CreateCopy(CopyDbModel newCopy)
+        {
+
+            var copyNoId = new CopyDbModel
+            {
+                //Book = new BookDbModel{Isbn = newCopy.Book.Isbn}
+                Book = GetBookByIsbn(newCopy.Book.Isbn)
+
+            };
+
+            var insertedCopyEntry = context.Copies.Add(copyNoId);
+            context.SaveChanges();
+
+            return insertedCopyEntry.Entity;
+        }
+
+        public CopyDbModel CreateCopy(CreateCopyRequest createCopyRequest)
+        {
+            var insertedCopy = new CopyDbModel();
+            var numberOfCopies = createCopyRequest.NumberOfCopies>0?createCopyRequest.NumberOfCopies:1;
+            for (int i=0; i <numberOfCopies; i++) 
+            {
+             var newCopy = new CopyDbModel
+            {
+            };
+
+            insertedCopy = context.Copies.Add(newCopy).Entity;
+
+            if (createCopyRequest.BookIsbn != null)
+            {
+                insertedCopy.Book = GetBookByIsbn (createCopyRequest.BookIsbn);
+
+            }
+            context.SaveChanges();
+            }
+            return insertedCopy;
         }
 
     }

@@ -7,11 +7,12 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Bookish.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="Bookish/Views/Shared/_Layout.cshtml.css" asp-append-version="true" /> 
 
 </head>
 <body>
-        @* bg-white *@
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #e3f2fd;">
+        @* bg-white  style="background-color: #e3f2fd;" #55cd98*@
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm  navbar-light border-bottom box-shadow mb-3" style="background-color: #55cd98">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Bookish</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -19,7 +20,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav nav-tabs lex-grow-1">
+                    <ul class="navbar-nav nav-pills lex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -27,11 +28,20 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="BookList">BookList</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="btn btn-secondary nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Books</a>
-                            <div class="dropdown-menu" style="background-color: #e3f2fd;">
+                            <a class="btn btn-secondary nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Books</a>
+                            <div class="dropdown-menu" style="background-color: #55cd98">
                             <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="BookList">All books</a>
                             <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="CreateBookForm">Add a book</a>
                             <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="CreateAuthorForm">Add an author</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="btn btn-secondary nav-link text-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Copies</a>
+                            <div class="dropdown-menu" style="background-color: #55cd98">
+                            @* <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="BookList">All books</a>
+                            <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="CreateBookForm">Add a book</a> *@
+                            <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="CreateCopyForm">Register new copies</a>
                             </div>
                         </li>
 
