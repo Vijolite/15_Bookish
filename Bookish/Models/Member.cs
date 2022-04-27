@@ -24,7 +24,7 @@ namespace Bookish.Models
             MobilePhone = memberDbModel.MobilePhone;
                     
             LoanListHistory = memberDbModel
-                        .Loans
+                        .Loans?
                         .Where(loan => loan.HasReturned == true)
                         .Select( q => new Loan
                             {
@@ -45,7 +45,7 @@ namespace Bookish.Models
                             })
                     .ToList();
             LoanListActual = memberDbModel
-                        .Loans
+                        .Loans?
                         .Where(loan => loan.HasReturned == false)
                         .Select( q => new Loan
                             {

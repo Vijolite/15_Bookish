@@ -13,9 +13,10 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly IBookService _bookService;
     private readonly ICopyService _copyService;
+    private readonly IMemberService _memberService;
 
     private readonly IAuthorService _authorService;
-    private MemberService _memberService = new MemberService();
+    //private MemberService _memberService = new MemberService();
     private LoanService _loanService = new LoanService();
 
     private readonly IBookRepo _books;
@@ -24,12 +25,14 @@ public class HomeController : Controller
         ILogger<HomeController> logger,
         IBookService bookService,
         ICopyService copyService,
+        IMemberService memberService,
         IAuthorService authorService
     )
     {
         _logger = logger;
         _bookService = bookService;
         _copyService = copyService;
+        _memberService = memberService;
         _authorService = authorService;
     }
 
@@ -110,12 +113,27 @@ public class HomeController : Controller
     }
 
     [HttpPost]
+    public IActionResult CreateMember([FromForm] CreateMemberRequest createMemberRequest)
+    {
+        var newMember = _memberService.CreateMember(createMemberRequest);
+
+        return Created("/Home/MemberList", newMember);
+    }
+
+    public IActionResult CreateMemberForm()
+    {
+        return View();
+    }
+
+    [HttpPost]
     public IActionResult CreateAuthor([FromForm] CreateAuthorRequest createAuthorRequest)
     {
         var newAuthor = _authorService.CreateAuthor(createAuthorRequest);
 
         return Created("/Home/AuthorList", newAuthor);
     }
+    
+
 
     // [HttpPost("create")]
     // public IActionResult Create([FromBody] CreateBookRequest newBook)

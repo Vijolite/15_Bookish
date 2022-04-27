@@ -1,0 +1,29 @@
+@model Bookish.Models.Request.CreateMemberRequest
+@{
+    ViewData["Title"] = "New Member";
+}
+
+<h1>New Member</h1>
+<form
+    asp-controller="Home"
+    asp-action="CreateMember"
+    method="post"
+>
+    <label asp-for="FirstName">
+        First name: <input asp-for="FirstName">
+    </label>
+    <label asp-for="LastName">
+        Last name: <input asp-for="LastName">
+    </label>
+    <br/><br/>
+    <label asp-for="MobilePhone">
+        Mobile phone number: <input asp-for="MobilePhone">
+    </label>
+    <br/>
+    <label asp-for="Address">
+        Address: <input asp-for="Address">
+    </label>
+    
+
+    <input type="submit">
+</form>

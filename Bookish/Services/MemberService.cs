@@ -1,22 +1,28 @@
 using Bookish.Repositories;
 using Bookish.Models;
+using Bookish.Models.Request;
+using Bookish.Models.Database;
 
 namespace Bookish.Services
 {
-    public class MemberService
+    public interface IMemberService
     {
-        private MemberRepo _members = new MemberRepo();
-        // private LoanRepo _loans = new LoanRepo();
-        
-        // private BookRepo _books = new BookRepo();
-        // private CopyRepo _copies = new CopyRepo();
+        public List<Member> GetAllMembers();
+        public Member CreateMember(CreateMemberRequest createMemberRequest);
+    }
+    public class MemberService : IMemberService
+    {
+        //private MemberRepo _members = new MemberRepo();
+        private IMemberRepo _members;
+        public MemberService(IMemberRepo members)
+        {
+            _members = members;
+        }
+
 
         public List<Member> GetAllMembers()
         {
             var dbMembers = _members.GetAllMembers();
-            // var dbLoans = _loans.GetAllLoans();
-            // var dbBooks = _books.GetAllBooks();
-            // var dbCopies = _copies.GetAllCopies();
 
             List<Member> result = new List<Member>();
 
@@ -92,6 +98,24 @@ namespace Bookish.Services
 
             //     }
             return result;
+        }
+
+        public Member CreateMember(CreateMemberRequest createAuthorRequest)
+        {
+
+            var insertedMember = _members.CreateMember(
+                new MemberDbModel
+                {
+
+
+                    FirstName = createAuthorRequest.FirstName,
+                    LastName = createAuthorRequest.LastName,
+                    MobilePhone = createAuthorRequest.MobilePhone,
+                    Address = createAuthorRequest.Address,
+
+                }
+            );
+            return new Member(insertedMember);
         }
     }
 }

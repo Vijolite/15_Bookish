@@ -6,6 +6,7 @@ namespace Bookish.Repositories
     public interface IMemberRepo
     {
         public List<MemberDbModel> GetAllMembers();
+        public MemberDbModel CreateMember(MemberDbModel newMember);
     }
     public class MemberRepo : IMemberRepo
     {
@@ -20,36 +21,22 @@ namespace Bookish.Repositories
                 .ThenInclude (b=>b.Book)
                 .ToList();
         }
+        public MemberDbModel CreateMember(MemberDbModel newMember)
+        {
+            // explicitly remove ID, as you're not allowed to specify it
+            var memberNoId = new MemberDbModel
+            {
+                FirstName = newMember.FirstName,
+                LastName = newMember.LastName,
+                MobilePhone = newMember.MobilePhone,
+                Address = newMember.Address,
+            };
+
+            var insertedMemberEntry = context.Members.Add(memberNoId);
+            context.SaveChanges();
+
+            return insertedMemberEntry.Entity;
+        }
     }
 }
 
-// using Bookish.Models.Database;
-
-// namespace Bookish.Repositories
-// {
-//     public class MemberRepo
-//     {
-//         public List<MemberDbModel> GetAllMembers()
-//         {
-//             return new List<MemberDbModel>
-//             {
-//                 new MemberDbModel
-//                 {
-//                   Id = 1,
-//                   FirstName = "Anna",
-//                   LastName = "Smith",
-//                   MobilePhone = "000777555",
-//                   Address = "NE35TH London street 5",
-//                 },
-//                 new MemberDbModel
-//                 {
-//                   Id = 2,
-//                   FirstName = "Jacob",
-//                   LastName = "Peterson",
-//                   MobilePhone = "111222333",
-//                   Address = "NB34RT Lilly's alley 45",
-//                 },
-//             };
-//         }
-//     }
-// }

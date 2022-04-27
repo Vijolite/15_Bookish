@@ -36,9 +36,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IBookRepo, BookRepo>();
 builder.Services.AddScoped<IAuthorRepo, AuthorRepo>();
 builder.Services.AddScoped<ICopyRepo, CopyRepo>();
+builder.Services.AddScoped<IMemberRepo, MemberRepo>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<ICopyService, CopyService>();
+builder.Services.AddScoped<IMemberService, MemberService>();
 
 var app = builder.Build();
 
