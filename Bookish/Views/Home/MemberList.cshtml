@@ -6,16 +6,60 @@
 
 <div class="text-center">
     <!--<h1 class="display-4">Members</h1>-->
+    @section scripts {
+    <script>
+        function showLoans(ind,type) {
+
+            if (type==='old') { rec='rec'; li='link'; }
+            else { rec='recAct'; li='linkAct'; }
+            //alert(type);
+            //document.getElementById('aaa'+ind).value=document.getElementById('name'+ind).innerHTML;
+            if (document.getElementById(rec+ind).classList.contains('invisible'))
+            {
+                document.getElementById(rec+ind).classList.remove('invisible');
+                document.getElementById(rec+ind).classList.add('visible');
+                document.getElementById(li+ind).innerHTML="  close >>";
+            }
+            else
+            {
+                document.getElementById(rec+ind).classList.remove('visible');
+                document.getElementById(rec+ind).classList.add('invisible');
+                document.getElementById(li+ind).innerHTML="  open >>";
+            }
+        }
+
+    </script>
+    }
+
     <ul>
+
+
+        
+        @{
+        var @ind=0;    
+        var recordId=" ";
+        var linkId=" ";
+        var recordActId=" ";
+        var linkActId=" ";
+        }
+        
         @foreach (Member m in Model)
         {
+            ind++;
+            recordId="rec"+@ind.ToString();
+            linkId="link"+@ind.ToString();
+            recordActId="recAct"+@ind.ToString();
+            linkActId="linkAct"+@ind.ToString();
             <li>
+                
                 <h2>@m.FirstName @m.LastName</h2>
 
                 <p>Adress: @m.Address Phone number: @m.MobilePhone</p>
 
-                <h3>Old time loans:</h3>
-                <ol>
+                <h4>Old time loans: <span class="underlined"><a id=@linkId onclick="showLoans(@ind.ToString(),'old')">  open >></a></span></h4>
+                @* <button type="button" onclick="myFunction(@ind.ToString())">Click Me!</button> *@
+         
+                <ol id=@recordId class="invisible">
                     @foreach (Loan l in m.LoanListHistory)
                     {
                             var x = l.HasReturned?l.ReturnDate.ToString():"not returned yet";
@@ -28,8 +72,8 @@
                         </li>
                     }
                 </ol>
-                <h3>Actual loans:</h3>
-                <ol>
+                <h4>Actual loans: <span class="underlined"><a id=@linkActId onclick="showLoans(@ind.ToString(),'act')">  open >></a></span></h4>
+                <ol id=@recordActId class="invisible">
                     @foreach (Loan l in m.LoanListActual)
                     {
                             var x = l.HasReturned?l.ReturnDate.ToString():"not returned yet";
@@ -41,18 +85,7 @@
                         </li>
                     }
                 </ol>
-                @* <h3>Actual loans:</h3>
-                <ol>
-                    @foreach (Loan l in m.LoanListActual)
-                    {
-                        var x = l.HasReturned?l.ReturnDate.ToString():"not returned yet";
-                        <li>
-                            <p>@l.Copy.Book.Title</p>
-                            <img width="50" src="@l.Copy.Book.CoverPhotoUrl" alt="@l.Copy.Book.Title" />
-                            <p>@l.IssueDate - @x</p>
-                        </li>
-                    }
-                </ol> *@
+
             </li>
         }
     </ul>

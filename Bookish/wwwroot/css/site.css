@@ -21,4 +21,21 @@ body {
 .invisible {
   display: none;
 }
+.visible {
+  display: block;
+  border-style: dotted;
+  /* border-color: #004e93; */
+  border-width: medium;
+}
+.underlined {
+  text-decoration: underline;
+  color: #004e93;
+  
+}
+h4 {
+  /* color: #55cd98;  */
+
+  color: #004e93;  
+}
+
 
