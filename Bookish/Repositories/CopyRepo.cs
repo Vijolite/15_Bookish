@@ -1,6 +1,7 @@
 using Bookish.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using Bookish.Models.Request;
+using Bookish.Models;
 
 
 namespace Bookish.Repositories
@@ -8,6 +9,8 @@ namespace Bookish.Repositories
     public interface ICopyRepo
     {
         public List<CopyDbModel> GetAllCopies();
+        public List<CopyDbModel> GetAvailableCopies();
+        public List<AvailableExemplars> GetAvailableCopiesCount();
         public CopyDbModel CreateCopy(CreateCopyRequest createCopyRequest);
         public CopyDbModel CreateCopy(CopyDbModel newCopy);
         public BookDbModel GetBookByIsbn (string isbn);
@@ -23,6 +26,57 @@ namespace Bookish.Repositories
                 .Include(b => b.Loans)
                 .ToList();
         }
+
+        public List<CopyDbModel> GetAvailableCopies()
+        {
+            //context.Copies.Join(context.Books, c=>c.Book.Isbn, b=>b.Isbn, (c,b)=>c);
+            //return context.Copies.Join(context.Books, c=>c.Book.Isbn, b=>b.Isbn, (c,b)=>c).ToList();
+
+            // var table =  from c in context.Copies
+            //             join b in context.Books on c.Book.Isbn equals b.Isbn 
+            //              select new {c};
+            // return table
+            
+                    
+            var CopyNotReturned = context.Loans.Where(lo=>lo.HasReturned == false).Select(l => l.Copy.CopyId);
+
+            return context
+                .Copies
+                .Include(b => b.Book)
+                .Where (c=>!CopyNotReturned.Contains(c.CopyId))
+                .Include (l => l.Loans)
+
+                .ToList();
+
+        }
+
+        public List<AvailableExemplars> GetAvailableCopiesCount()
+        {
+
+            var CopyNotReturned = context.Loans.Where(lo=>lo.HasReturned == false).Select(l => l.Copy.CopyId);
+
+            return context
+                .Copies
+                .Where (c=>!CopyNotReturned.Contains(c.CopyId))
+                .GroupBy(c=>c.Book.Isbn)
+                .Select(c => new {count = c.Count(), Isbn = c.Key})
+                .OrderByDescending(b=>b.count)
+                .Join (
+                    context.Books,
+                    c => c.Isbn,
+                    b => b.Isbn,
+                    (c,b) => new AvailableExemplars {
+                        Isbn = b.Isbn,
+                        Title = b.Title,
+                        CoverPhotoUrl = b.CoverPhotoUrl,
+                        Count = c.count
+                    }
+                )
+
+                .ToList();
+
+        }
+
 
         public CopyDbModel GetCopyById(int id)
         {

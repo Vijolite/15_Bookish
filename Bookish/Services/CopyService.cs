@@ -8,6 +8,8 @@ namespace Bookish.Services
     public interface ICopyService
     {
         public List<Copy> GetAllCopies();
+        public List<Copy> GetAvailableCopies();
+        public List<AvailableExemplars> GetAvailableCopiesCount();
         public Copy CreateCopy(CreateCopyRequest createCopyRequest);
         public Copy CreateCopy(string isbn);
     }
@@ -32,6 +34,34 @@ namespace Bookish.Services
             foreach (var dbCopy in allDbCopies)
             {
                 result.Add(new Copy(dbCopy));
+            }
+
+            return result;
+        }
+
+        public List<Copy> GetAvailableCopies()
+        {
+            var allDbCopies = _copies.GetAvailableCopies();
+
+            List<Copy> result = new List<Copy>();
+
+            foreach (var dbCopy in allDbCopies)
+            {
+                result.Add(new Copy(dbCopy));
+            }
+
+            return result;
+        }
+
+        public List<AvailableExemplars> GetAvailableCopiesCount()
+        {
+            var AvCopies = _copies.GetAvailableCopiesCount();
+
+            List<AvailableExemplars> result = new List<AvailableExemplars>();
+
+            foreach (var av in AvCopies)
+            {
+                result.Add(new AvailableExemplars(av));
             }
 
             return result;

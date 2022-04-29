@@ -1,0 +1,37 @@
+﻿@model List<Copy>
+@{
+    ViewData["Title"] = "Available Copies";
+}
+
+
+
+<h1 class="display-4">Available copies:</h1>
+<div class="text-center">
+
+    <ul>
+
+        
+        @foreach (Copy c in Model)
+        {
+
+            <li>
+                
+                <h2>@c.Book.Title</h2>
+                <p>CopyId: @c.CopyId</p>
+                <p>ISBN: @c.Book.Isbn</p>
+
+                @foreach (Loan l in @c.LoanList) 
+                {
+                     <p>@l.IssueDate - @l.ReturnDate</p>
+                     <p>HasReturned: @l.HasReturned</p>
+
+                }
+        
+
+
+                
+
+            </li>
+        }
+    </ul>
+</div>

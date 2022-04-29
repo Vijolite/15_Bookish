@@ -26,6 +26,7 @@ body {
   border-style: dotted;
   /* border-color: #004e93; */
   border-width: medium;
+  border-radius: 1rem;
 }
 .underlined {
   text-decoration: underline;
@@ -35,7 +36,15 @@ body {
 h4 {
   /* color: #55cd98;  */
 
-  color: #004e93;  
+  color: #004e93; 
+  font-size: 1.2rem; 
+}
+
+
+.row > div {
+  
+  border-top: 1px solid ;
+  border-bottom: 1px solid ;
 }
 
 

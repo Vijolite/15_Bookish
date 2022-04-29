@@ -1,0 +1,48 @@
+﻿@model List<AvailableExemplars>
+@{
+    ViewData["Title"] = "Available Copies";
+}
+
+
+
+<h1 class="display-4">Available copies:</h1>
+<div class="text-center">
+    <div class = "container">
+
+    <ul>
+        <div class="row">   
+                   
+                    <div class = "col-sm-8">
+                        <h4>Book:</h4>    
+                    </div>
+                    <div class = "col-sm-4">
+                        <h4>Available number:</h4>
+                    </div>
+                    
+        </div> 
+        
+        @foreach (AvailableExemplars c in Model)
+        {
+
+            <li>
+                <div class="row">   
+                    <div class = "col-sm-4">
+                        <img width="100" src="@c.CoverPhotoUrl" alt="@c.Title"/>
+                    </div>
+                    <div class = "col-sm-4">
+                        <h3>@c.Title</h3>
+                        
+                        <p>ISBN: @c.Isbn</p>
+                        
+                    </div>
+                    <div class = "col-sm-4">
+                        <h2>@c.Count</h2>
+                    </div>
+                    
+                </div> 
+            </li>
+        }
+    </ul>
+
+    </div>
+</div>

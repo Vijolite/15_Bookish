@@ -52,6 +52,18 @@ public class HomeController : Controller
         return View(books);
     }
 
+    public IActionResult AvailableCopyList()
+    {
+        var copies = _copyService.GetAvailableCopies();
+        return View(copies);
+    }
+
+    public IActionResult AvailableExemplarsList()
+    {
+        var avEx = _copyService.GetAvailableCopiesCount();
+        return View(avEx);
+    }
+
     public IActionResult CreateBookForm()
     {
         var authors = _authorService.GetAllAuthors();
@@ -61,6 +73,13 @@ public class HomeController : Controller
             {
                 Value = a.Id.ToString(),
                 Text = a.Name
+            }
+        );
+        ViewBag.AuthorPhotos = authors.Select(
+            a => new SelectListItem
+            {
+                Value = a.Id.ToString(),
+                Text = a.AuthorPhotoUrl
             }
         );
         return View();

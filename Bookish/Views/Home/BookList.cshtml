@@ -1,28 +1,40 @@
-﻿model List<Book>
+﻿@model List<Book>
 @{
     ViewData["Title"] = "Books";
 }
 
 <h1 class="display-4">Books</h1>
-<ul class="container">
+<div class = "container">
+<ul >
     @foreach (Book book in Model)
     {
-        <li class="card" style="width: 30vw">
+        
+        <li>
+            <div class="row">   
+            <div class = "col-sm-4">
             <img
                 width="200"
                 src="@book.CoverPhotoUrl"
                 alt="@book.Title"
                 class="card-img-top"
             />
-            <div class="card-body">
-                <h2 class="card-title">@book.Title</h2>
-                <p class="card-subtitle text-muted">By @book.Authors[0].Name</p>
+            </div>
+            <div class = "col-sm-4">
+                <h2 >@book.Title</h2>
+                <p >By @book.Authors[0].Name</p>
+                <p >@book.Isbn</p>
+            </div>
+            <div class="col-sm-4">
+
                 <p class="card-text">@book.Blurb</p>
-                <p class="card-text">@book.Isbn</p>
+
+            </div>
             </div>
         </li>
+        
     }
 </ul>
+</div>
 
 
 @* 
