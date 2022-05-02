@@ -1,11 +1,14 @@
 using Bookish.Models.Database;
 using Microsoft.EntityFrameworkCore;
+using Bookish.Models.Request;
+
 
 namespace Bookish.Repositories
 {
     public interface ILoanRepo
         {
             public List<LoanDbModel> GetAllLoans();
+            public LoanDbModel CreateLoan(CreateLoanRequest createLoanRequest);
         }
     public class LoanRepo : ILoanRepo
     {
@@ -20,6 +23,40 @@ namespace Bookish.Repositories
                 .Include(c => c.Copy)
                 .ThenInclude (b=>b.Book)
                 .ToList();
+        }
+
+        public LoanDbModel CreateLoan(CreateLoanRequest createLoanRequest)
+        {
+
+            var loanNoId = new LoanDbModel
+            {
+                IssueDate = DateTime.Today,
+                HasReturned = false,
+                //Copy = GetCopyById (createLoanRequest.CopyId)
+            };
+
+            var insertedLoan = context.Loans.Add(loanNoId).Entity;
+
+            // if (createLoanRequest.CopyId != null)
+            // {
+            //     insertedLoan.Copy = CopyRepo.GetCopyById (createLoanRequest.CopyId);
+
+            // }
+
+
+            // if (createLoanRequest.MemberId != null)
+            // {
+            //     insertedLoan.Member = new MemberDbModel();
+
+                
+            //     insertedLoan.Member.Add(
+            //         context.Members.Where(a => a.Id == MemberId).Single()
+            //     );
+                
+            // }
+            context.SaveChanges();
+
+            return insertedLoan;
         }
 
         public List<LoanDbModel> GetOldLoans(int id)

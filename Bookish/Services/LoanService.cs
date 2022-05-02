@@ -1,9 +1,17 @@
 using Bookish.Repositories;
 using Bookish.Models;
+using Bookish.Models.Request;
+
 
 namespace Bookish.Services
 {
-    public class LoanService
+    public interface ILoanService
+    {
+        public Loan CreateLoan(CreateLoanRequest createLoanRequest);
+        public List<Loan> GetAllLoans();
+
+    }
+    public class LoanService : ILoanService
     {
         private BookRepo _books = new BookRepo();
         private CopyRepo _copies = new CopyRepo();
@@ -36,6 +44,12 @@ namespace Bookish.Services
             }
             
             return result;
+        }
+
+        public Loan CreateLoan(CreateLoanRequest createLoanRequest)
+        {
+            var insertedLoan = _loans.CreateLoan(createLoanRequest);
+            return new Loan(insertedLoan);    
         }
     }
 }

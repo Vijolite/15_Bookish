@@ -14,6 +14,7 @@ namespace Bookish.Repositories
         public CopyDbModel CreateCopy(CreateCopyRequest createCopyRequest);
         public CopyDbModel CreateCopy(CopyDbModel newCopy);
         public BookDbModel GetBookByIsbn (string isbn);
+        public CopyDbModel GetCopyById (int? id);
     }
     public class CopyRepo : ICopyRepo
     {
@@ -69,16 +70,18 @@ namespace Bookish.Repositories
                         Isbn = b.Isbn,
                         Title = b.Title,
                         CoverPhotoUrl = b.CoverPhotoUrl,
-                        Count = c.count
+                        Count = c.count,
+                        TopCopyId = context.Copies
+                            .Where(c=>!CopyNotReturned.Contains(c.CopyId) && c.Book.Isbn==b.Isbn)
+                            .Select(l => l.CopyId).First(),
                     }
                 )
-
                 .ToList();
 
         }
 
 
-        public CopyDbModel GetCopyById(int id)
+        public CopyDbModel GetCopyById(int? id)
         {
             return context
             .Copies

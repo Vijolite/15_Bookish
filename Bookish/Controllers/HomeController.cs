@@ -126,6 +126,41 @@ public class HomeController : Controller
         return Created("/Home/BookList", newCopy);
     }
 
+    public IActionResult CreateLoanForm()
+    {
+        var members = _memberService.GetAllMembers();
+        ViewBag.Members = members.Select(
+            a => new SelectListItem
+            {
+                Value = a.Id.ToString(),
+                Text = a.FirstName + " " + a.LastName
+                
+            }
+        );
+        var copies = _copyService.GetAvailableCopiesCount();
+        ViewBag.Copies = copies.Select(
+            a => new SelectListItem
+            {
+                Value = a.TopCopyId.ToString(),
+                Text = a.Title + " (" + a.Isbn + ") " 
+                
+            }
+        );
+        
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult CreateLoan([FromForm] CreateLoanRequest createLoanRequest)
+    {
+           
+        var newLoan = _loanService.CreateLoan(createLoanRequest);
+        
+
+        return Created("/Home/MemberList", newLoan);
+    }
+
+
     public IActionResult CreateAuthorForm()
     {
         return View();
@@ -152,23 +187,6 @@ public class HomeController : Controller
         return Created("/Home/AuthorList", newAuthor);
     }
     
-
-
-    // [HttpPost("create")]
-    // public IActionResult Create([FromBody] CreateBookRequest newBook)
-    // {
-    //     if (!ModelState.IsValid)
-    //     {
-    //         return BadRequest(ModelState);
-    //     }
-    //     // var books = _books.GetAllBooks();
-    //     // var book = books.Create(newBook);
-    //     var book = _books.Create(newBook);
-
-    //     var url = Url.Action("GetById", new { id = user.Id });
-    //     var responseViewModel = new BookResponse(book);
-    //     return Created(url, responseViewModel);
-    // }
 
     public IActionResult MemberList()
     {

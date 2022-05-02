@@ -6,6 +6,7 @@ namespace Bookish.Models
         public string? Isbn { get; set; }
         public string? Title { get; set; }
         public string? CoverPhotoUrl { get; set; }
+        public int? TopCopyId {get; set;}
 
 
         public int Count { get; set; }
@@ -19,6 +20,7 @@ namespace Bookish.Models
             Title = av.Title;
             Count= av.Count;  
             CoverPhotoUrl = av.CoverPhotoUrl; 
+            TopCopyId = av.TopCopyId;
         }
 
     }
