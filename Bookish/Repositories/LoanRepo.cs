@@ -25,6 +25,18 @@ namespace Bookish.Repositories
                 .ToList();
         }
 
+        public CopyDbModel GetCopyById(int id)
+        {
+            return context
+            .Copies
+            .Single(l => l.CopyId == id);
+        }
+        public MemberDbModel GetMemberById(int id)
+        {
+            return context
+            .Members
+            .Single(l => l.Id == id);
+        }
         public LoanDbModel CreateLoan(CreateLoanRequest createLoanRequest)
         {
 
@@ -32,28 +44,25 @@ namespace Bookish.Repositories
             {
                 IssueDate = DateTime.Today,
                 HasReturned = false,
-                //Copy = GetCopyById (createLoanRequest.CopyId)
+                Copy = GetCopyById (createLoanRequest.CopyId),
+                Member = GetMemberById (createLoanRequest.MemberId)
             };
 
             var insertedLoan = context.Loans.Add(loanNoId).Entity;
 
-            // if (createLoanRequest.CopyId != null)
-            // {
-            //     insertedLoan.Copy = CopyRepo.GetCopyById (createLoanRequest.CopyId);
+            if (createLoanRequest.CopyId != null)
+            {
+                insertedLoan.Copy = GetCopyById (createLoanRequest.CopyId);
 
-            // }
+            }
+            if (createLoanRequest.MemberId != null)
+            {
+                insertedLoan.Member = GetMemberById (createLoanRequest.MemberId);
+
+            }
 
 
-            // if (createLoanRequest.MemberId != null)
-            // {
-            //     insertedLoan.Member = new MemberDbModel();
 
-                
-            //     insertedLoan.Member.Add(
-            //         context.Members.Where(a => a.Id == MemberId).Single()
-            //     );
-                
-            // }
             context.SaveChanges();
 
             return insertedLoan;

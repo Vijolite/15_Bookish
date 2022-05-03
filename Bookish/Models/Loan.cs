@@ -5,7 +5,7 @@ namespace Bookish.Models
     {
 
         public Copy Copy { get; set; }
-        public Member? Member { get; set; }
+        public Member Member { get; set; }
         public DateTime? IssueDate { get; set; }
         public DateTime? ReturnDate { get; set; }
 
@@ -21,9 +21,9 @@ namespace Bookish.Models
             IssueDate = loanDbModel.IssueDate;
             ReturnDate = loanDbModel.ReturnDate;
             HasReturned = loanDbModel.HasReturned;
-            Member = new Member {FirstName = loanDbModel.Member.FirstName, LastName=loanDbModel.Member.LastName};
+            Member = new Member {FirstName = loanDbModel.Member?.FirstName, LastName=loanDbModel.Member?.LastName};
             Copy = new Copy 
-                {Book = new Book {Title = loanDbModel.Copy.Book.Title, CoverPhotoUrl=loanDbModel.Copy.Book.CoverPhotoUrl}};
+                {Book = new Book {Title = loanDbModel.Copy?.Book?.Title, CoverPhotoUrl=loanDbModel.Copy?.Book?.CoverPhotoUrl}};
         }
     }
 }

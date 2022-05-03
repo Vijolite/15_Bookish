@@ -14,7 +14,7 @@ namespace Bookish.Repositories
         public CopyDbModel CreateCopy(CreateCopyRequest createCopyRequest);
         public CopyDbModel CreateCopy(CopyDbModel newCopy);
         public BookDbModel GetBookByIsbn (string isbn);
-        public CopyDbModel GetCopyById (int? id);
+        //public CopyDbModel GetCopyById (int id);
     }
     public class CopyRepo : ICopyRepo
     {
@@ -81,7 +81,7 @@ namespace Bookish.Repositories
         }
 
 
-        public CopyDbModel GetCopyById(int? id)
+        public CopyDbModel GetCopyById(int id)
         {
             return context
             .Copies
