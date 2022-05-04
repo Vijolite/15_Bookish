@@ -8,6 +8,7 @@ namespace Bookish.Services
     public interface ILoanService
     {
         public Loan CreateLoan(CreateLoanRequest createLoanRequest);
+        public Loan UpdateLoan(UpdateLoanRequest updateLoanRequest);
         public List<Loan> GetAllLoans();
 
     }
@@ -29,18 +30,7 @@ namespace Bookish.Services
 
             foreach (var dbLoan in dbLoans)
             {
-                result.Add(new Loan(dbLoan));
-                // result.Add(new Loan
-                // {
-                //     IssueDate = dbLoan.IssueDate,
-                //     ReturnDate = dbLoan.ReturnDate,
-                //     HasReturned = dbLoan.HasReturned,
-                //     Member = new Member {FirstName = dbLoan.Member.FirstName, LastName=dbLoan.Member.LastName},
-                //     Copy = new Copy 
-                //     {Book = new Book {Title = dbLoan.Copy.Book.Title, CoverPhotoUrl=dbLoan.Copy.Book.CoverPhotoUrl}},
-
-                // });
-   
+                result.Add(new Loan(dbLoan));   
             }
             
             return result;
@@ -49,6 +39,12 @@ namespace Bookish.Services
         public Loan CreateLoan(CreateLoanRequest createLoanRequest)
         {
             var insertedLoan = _loans.CreateLoan(createLoanRequest);
+            return new Loan(insertedLoan);    
+        }
+
+        public Loan UpdateLoan(UpdateLoanRequest updateLoanRequest)
+        {
+            var insertedLoan = _loans.UpdateLoan(updateLoanRequest);
             return new Loan(insertedLoan);    
         }
     }

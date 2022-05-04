@@ -9,6 +9,7 @@ namespace Bookish.Repositories
         {
             public List<LoanDbModel> GetAllLoans();
             public LoanDbModel CreateLoan(CreateLoanRequest createLoanRequest);
+            public LoanDbModel UpdateLoan(UpdateLoanRequest updateLoanRequest);
         }
     public class LoanRepo : ILoanRepo
     {
@@ -61,7 +62,34 @@ namespace Bookish.Repositories
 
             }
 
+            context.SaveChanges();
 
+            return insertedLoan;
+        }
+
+        public LoanDbModel UpdateLoan(UpdateLoanRequest updateLoanRequest)
+        {
+
+            var loanNoId = new LoanDbModel
+            {
+                ReturnDate = DateTime.Today,
+                HasReturned = true,
+                // Copy = GetCopyById (createLoanRequest.CopyId),
+                // Member = GetMemberById (createLoanRequest.MemberId)
+            };
+
+            var insertedLoan = context.Loans.Add(loanNoId).Entity;
+
+            // if (createLoanRequest.CopyId != null)
+            // {
+            //     insertedLoan.Copy = GetCopyById (createLoanRequest.CopyId);
+
+            // }
+            // if (createLoanRequest.MemberId != null)
+            // {
+            //     insertedLoan.Member = GetMemberById (createLoanRequest.MemberId);
+
+            // }
 
             context.SaveChanges();
 

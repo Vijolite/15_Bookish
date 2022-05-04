@@ -155,8 +155,38 @@ public class HomeController : Controller
     {
            
         var newLoan = _loanService.CreateLoan(createLoanRequest);
-        
+        return Created("/Home/MemberList", newLoan);
+    }
 
+    public IActionResult UpdateLoanForm()
+    {
+        var members = _memberService.GetAllMembers();
+        ViewBag.Members = members.Select(
+            a => new SelectListItem
+            {
+                Value = a.Id.ToString(),
+                Text = a.FirstName + " " + a.LastName
+                
+            }
+        );
+        ViewBag.MembersFullInfo = members;
+        // var copies = _copyService.GetAvailableCopiesCount();
+        // ViewBag.Copies = copies.Select(
+        //     a => new SelectListItem
+        //     {
+        //         Value = a.TopCopyId.ToString(),
+        //         Text = a.Title + " (" + a.Isbn + ") " 
+                
+        //     }
+        // );
+        
+        return View();
+    }
+
+    [HttpPatch]
+    public IActionResult UpdateLoan([FromForm] UpdateLoanRequest updateLoanRequest)
+    {       
+        var newLoan = _loanService.UpdateLoan(updateLoanRequest);
         return Created("/Home/MemberList", newLoan);
     }
 
