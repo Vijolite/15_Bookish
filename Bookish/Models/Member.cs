@@ -31,7 +31,8 @@ namespace Bookish.Models
                                 IssueDate=q.IssueDate,
                                 ReturnDate=q.ReturnDate,
                                 HasReturned=q.HasReturned, 
-                                Copy = new Copy {Book = new Book {
+                                Copy = new Copy { CopyId = q.Copy.CopyId,
+                                    Book = new Book {
                                     Title=q.Copy?.Book?.Title,
                                     CoverPhotoUrl=q.Copy?.Book?.CoverPhotoUrl,
                                     // Authors = q.Copy.Book.Authors
@@ -52,7 +53,8 @@ namespace Bookish.Models
                                 IssueDate=q.IssueDate,
                                 ReturnDate=q.ReturnDate,
                                 HasReturned=q.HasReturned, 
-                                Copy = new Copy {Book = new Book {
+                                Copy = new Copy {CopyId = q.Copy.CopyId,
+                                    Book = new Book {
                                     Title=q.Copy?.Book?.Title,
                                     CoverPhotoUrl=q.Copy?.Book?.CoverPhotoUrl,
                                 },},

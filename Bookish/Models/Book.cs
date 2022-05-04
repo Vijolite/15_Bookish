@@ -21,5 +21,10 @@ namespace Bookish.Models
 
             Authors = bookDbModel.Authors?.Select(a => new Author(a)).ToList();
         }
+
+
+
+        
+
     }
 }

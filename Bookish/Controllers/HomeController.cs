@@ -165,29 +165,20 @@ public class HomeController : Controller
             a => new SelectListItem
             {
                 Value = a.Id.ToString(),
-                Text = a.FirstName + " " + a.LastName
-                
+                Text = a.FirstName + " " + a.LastName    
             }
         );
         ViewBag.MembersFullInfo = members;
-        // var copies = _copyService.GetAvailableCopiesCount();
-        // ViewBag.Copies = copies.Select(
-        //     a => new SelectListItem
-        //     {
-        //         Value = a.TopCopyId.ToString(),
-        //         Text = a.Title + " (" + a.Isbn + ") " 
-                
-        //     }
-        // );
-        
         return View();
     }
 
-    [HttpPatch]
-    public IActionResult UpdateLoan([FromForm] UpdateLoanRequest updateLoanRequest)
+    //[HttpPatch]
+    [HttpPost]
+    
+    public ActionResult<UpdateLoanRequest> UpdateLoan([FromForm] UpdateLoanRequest updateLoanRequest)
     {       
-        var newLoan = _loanService.UpdateLoan(updateLoanRequest);
-        return Created("/Home/MemberList", newLoan);
+        var updLoan = _loanService.UpdateLoan(updateLoanRequest);
+        return new UpdateLoanRequest(updLoan);
     }
 
 

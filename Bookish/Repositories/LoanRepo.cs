@@ -66,34 +66,17 @@ namespace Bookish.Repositories
 
             return insertedLoan;
         }
-
+        
         public LoanDbModel UpdateLoan(UpdateLoanRequest updateLoanRequest)
         {
+            var loan = context.Loans
+                .Where(l => l.Member.Id == updateLoanRequest.MemberId && l.Copy.CopyId == updateLoanRequest.CopyId).First();
+            loan.ReturnDate = DateTime.Today;
+            loan.HasReturned = true;
 
-            var loanNoId = new LoanDbModel
-            {
-                ReturnDate = DateTime.Today,
-                HasReturned = true,
-                // Copy = GetCopyById (createLoanRequest.CopyId),
-                // Member = GetMemberById (createLoanRequest.MemberId)
-            };
-
-            var insertedLoan = context.Loans.Add(loanNoId).Entity;
-
-            // if (createLoanRequest.CopyId != null)
-            // {
-            //     insertedLoan.Copy = GetCopyById (createLoanRequest.CopyId);
-
-            // }
-            // if (createLoanRequest.MemberId != null)
-            // {
-            //     insertedLoan.Member = GetMemberById (createLoanRequest.MemberId);
-
-            // }
-
+            context.Loans.Update(loan);
             context.SaveChanges();
-
-            return insertedLoan;
+            return loan;
         }
 
         public List<LoanDbModel> GetOldLoans(int id)

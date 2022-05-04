@@ -28,6 +28,9 @@ body {
   border-width: medium;
   border-radius: 1rem;
 }
+.noframe{
+  border-style: none;
+}
 .underlined {
   text-decoration: underline;
   color: #004e93;

@@ -1,4 +1,4 @@
-@model Bookish.Models.Request.CreateLoanRequest
+@model Bookish.Models.Request.UpdateLoanRequest
 @{
     ViewData["Title"] = "Return loan";
 }
@@ -9,13 +9,16 @@
 <form
     asp-controller="Home"
     asp-action="UpdateLoan"
-    method="patch"
+    method="post"
 >
 
     <label asp-for="MemberId">
         Member: <select asp-for="MemberId" asp-items="ViewBag.Members" onchange="showBooksFromActualLoans()"></select>
     </label>
 
+    <input class="invisible" asp-for="CopyId">
+
+    
     @section scripts {
     <script>
         $(document).ready(function() {
@@ -23,7 +26,6 @@
             showBooksFromActualLoans();
             
         })
-
         function showBooksFromActualLoans() {
 
             var selectedId=document.getElementById('MemberId').value;
@@ -31,7 +33,6 @@
             const records = document.querySelectorAll(`[id^="recAct"]`);
             
             records.forEach(function(r)  {
-                console.log(r.id);
                 if (rec+selectedId!=r.id) {
                     document.getElementById(r.id).classList.remove('visible');
                     document.getElementById(r.id).classList.add('invisible');
@@ -40,8 +41,11 @@
                     document.getElementById(r.id).classList.remove('invisible');
                     document.getElementById(r.id).classList.add('visible');
                 }
-            });
-            
+            });        
+        }
+        function pickUpCopyId(copyid){
+            document.getElementById('CopyId').value=copyid;
+            document.getElementById('CopyId').innerHTML=copyid;
         }
     </script>
     }
@@ -50,67 +54,35 @@
     }
   
     <br/><br/>
-    @foreach (Member m in ViewBag.MembersFullInfo) {
-        @* <p>@m.FirstName</p> *@
-        
-        recordActId="recAct"+@m.Id.ToString();
-        <ol id=@recordActId class="invisible">
-            @foreach (Loan l in m.LoanListActual)
-            {
-                <li>
-                    
-                    <p>@l.Copy.Book.Title</p>
-                    <img width="50" src="@l.Copy.Book.CoverPhotoUrl" alt="@l.Copy.Book.Title" />
-                    <p>Issue Date: @l.IssueDate</p>
-                </li>
-            }
-        </ol>
-    }
-
-    @* <label asp-for="CopyId">
-        Available books: <select asp-for="CopyId" asp-items="ViewBag.Copies"></select>
-
-    </label> *@
-@* 
-    <label class="invisible">
-        Photo: <select id="Photo" asp-items="ViewBag.Photos" ></select>
-
-    </label>
-
-    <br/><br/>
-
-    @section scripts {
-    <script>
-        $(document).ready(function() {
-            showABook();
-        })
-
-
-        function showABook() {
-
-            document.getElementById('Photo').value=document.getElementById('BookIsbn').value;
-
-
-            var listSelect = document.getElementById('Photo');
-            var selectedUrl = listSelect.options[listSelect.selectedIndex].text;
-
-            document.getElementById('BookPic3').src=selectedUrl;
+    
+        @foreach (Member m in ViewBag.MembersFullInfo) {
+            
+            recordActId="recAct"+@m.Id.ToString();
+            <div class = "container">
+            <ol id=@recordActId class="invisible, noframe">
+                @foreach (Loan l in m.LoanListActual)
+                {
+                    <li>
+                        <div class="row">
+                            <div class = "col-sm-3">
+                                <img width="50" src="@l.Copy.Book.CoverPhotoUrl" alt="@l.Copy.Book.Title" />    
+                            </div>
+                            <div class = "col-sm-6">
+                                <p>@l.Copy.Book.Title</p>
+                                <br/>
+                                <p>Issue Date: @l.IssueDate</p>
+                            </div>
+                            <div class = "col-sm-3">
+                                <button value="Return" type="submit" onclick="pickUpCopyId(@l.Copy.CopyId)">Return</button>
+                            </div>
+                            
+                            
+                        </div>
+                    </li>
+                }
+            </ol>
+            </div>
         }
-
-    </script>
-    }
-
-
-    <label asp-for="NumberOfCopies">
-        Number of copies (specify if more than 1): <input asp-for="NumberOfCopies">
-    </label>
-    <br/><br/><br/>
-
-    <input id="BookPic3" width="150" type="image" src="https://" alt="Picture of the book" > *@
-
-    <br/><br/><br/>
-
-
-
-    <input type="submit">
+    
+   
 </form>

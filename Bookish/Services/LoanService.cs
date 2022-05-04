@@ -44,8 +44,8 @@ namespace Bookish.Services
 
         public Loan UpdateLoan(UpdateLoanRequest updateLoanRequest)
         {
-            var insertedLoan = _loans.UpdateLoan(updateLoanRequest);
-            return new Loan(insertedLoan);    
+            var updLoan = _loans.UpdateLoan(updateLoanRequest);
+            return new Loan(updLoan);    
         }
     }
 }
