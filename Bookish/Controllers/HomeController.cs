@@ -90,7 +90,8 @@ public class HomeController : Controller
     {
         var newBook = _bookService.CreateBook(createBookRequest);
 
-        return Created("/Home/BookList", newBook);
+        //return Created("/Home/BookList", newBook);
+        return RedirectToAction("BookList", "Home");
     }
 
     public IActionResult CreateCopyForm()
@@ -123,7 +124,8 @@ public class HomeController : Controller
         var newCopy = _copyService.CreateCopy(createCopyRequest);
         
 
-        return Created("/Home/BookList", newCopy);
+        //return Created("/Home/BookList", newCopy);
+        return RedirectToAction("AvailableExemplarsList", "Home");
     }
 
     public IActionResult CreateLoanForm()
@@ -155,7 +157,8 @@ public class HomeController : Controller
     {
            
         var newLoan = _loanService.CreateLoan(createLoanRequest);
-        return Created("/Home/MemberList", newLoan);
+        //return Created("/Home/MemberList", newLoan);
+        return RedirectToAction("MemberList", "Home");
     }
 
     public IActionResult UpdateLoanForm()
@@ -178,7 +181,8 @@ public class HomeController : Controller
     public ActionResult<UpdateLoanRequest> UpdateLoan([FromForm] UpdateLoanRequest updateLoanRequest)
     {       
         var updLoan = _loanService.UpdateLoan(updateLoanRequest);
-        return new UpdateLoanRequest(updLoan);
+        //return new UpdateLoanRequest(updLoan);
+        return RedirectToAction("MemberList", "Home");
     }
 
 
@@ -192,7 +196,8 @@ public class HomeController : Controller
     {
         var newMember = _memberService.CreateMember(createMemberRequest);
 
-        return Created("/Home/MemberList", newMember);
+        //return Created("/Home/MemberList", newMember);
+        return RedirectToAction("MemberList", "Home");
     }
 
     public IActionResult CreateMemberForm()
@@ -205,7 +210,8 @@ public class HomeController : Controller
     {
         var newAuthor = _authorService.CreateAuthor(createAuthorRequest);
 
-        return Created("/Home/AuthorList", newAuthor);
+        //return Created("/Home/AuthorList", newAuthor);
+        return RedirectToAction("CreateBookForm", "Home"); //after will redirect to AuthorList
     }
     
 
